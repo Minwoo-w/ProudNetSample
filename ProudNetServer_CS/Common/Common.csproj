@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <PlatformTarget>x64</PlatformTarget>
+    <NoWin32Manifest>true</NoWin32Manifest>
+    <Platforms>AnyCPU;x86;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="ProudDotNetClient">
+      <HintPath>ProudDotNetClient.dll</HintPath>
+    </Reference>
+    <Reference Include="ProudDotNetServer">
+      <HintPath>ProudDotNetServer.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

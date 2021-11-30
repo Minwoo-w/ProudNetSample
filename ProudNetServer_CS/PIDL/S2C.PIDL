@@ -1,0 +1,15 @@
+﻿[access=public]
+global S2C 2000
+{
+    JoinClient([in] int hostID, [in] int entityID);
+    LeaveClient([in] int hostID, [in] int entityID);
+
+    EntityAppear([in] int entityID, [in] bool bPublic, [in] float px, [in] float py, [in] float pz);
+    EntityDisappear([in] int entityID);
+
+    MoveTo([in] int entityID, [in] float px, [in] float py, [in] float pz);
+    MoveToArray([in] System.Collections.Generic.List<int> entityID, [in] System.Collections.Generic.List<float> px, [in] System.Collections.Generic.List<float> py, [in] System.Collections.Generic.List<float> pz);
+
+    CheckLatency([in] long prevTick);
+    EntityCount([in] int amount);
+}

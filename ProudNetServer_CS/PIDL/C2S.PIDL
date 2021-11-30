@@ -1,0 +1,9 @@
+﻿[access=public]
+global C2S 4000
+{
+    JoinGame([in] long timestamp);
+    MoveTo([in] int entityID, [in] float px, [in] float py, [in] float pz);
+
+    CheckLatency([in] long currentTick);
+    GetEntityCount();
+}

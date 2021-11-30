@@ -1,0 +1,10 @@
+﻿[marshaler(cs)=Core.MoveInfoMarshaler, access=public]
+
+global C2S 4000
+{
+    JoinGame([in] long timestamp);
+    MoveTo([in] System.Collections.Generic.List<Core.MoveInfo> infos);
+
+    CheckLatency([in] long currentTick);
+    GetEntityCount();
+}
