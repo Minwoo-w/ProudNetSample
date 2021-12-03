@@ -53,11 +53,6 @@ namespace GameServer
             param.m_webSocketParam.endpoint = "^/echo/?$";
             param.m_webSocketParam.listenPort = Vars.WEB_SERVER_PORT;
             param.m_webSocketParam.threadCount = 4;
-            if (param.m_webSocketParam.webSocketType == WebSocketType.Wss)
-            {
-                param.m_webSocketParam.certFile = "/etc/httpd/ssl/STAR.rsup.io_cert.pem";
-                param.m_webSocketParam.privateKeyFile = "/etc/httpd/ssl/STAR.rsup.io_key.pem";
-            }
 
             server.AttachProxy(proxy);
             server.AttachStub(stub);
@@ -192,7 +187,7 @@ namespace GameServer
                         proxy.MoveTo(server.GetClientHostIDs(), movementContext, infos);
                     }
                 }
-                Thread.Sleep(250);
+                Thread.Sleep(500);
             }
 
             // Game

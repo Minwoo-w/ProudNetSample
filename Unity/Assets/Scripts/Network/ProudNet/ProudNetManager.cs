@@ -19,9 +19,12 @@ public class ProudNetManager : MonoBehaviour
 
     private object _moveLock = new object();
 
-    private bool bConnectedServer = false;
-    private const ushort SERVER_PORT = 17788;
+    private const string IP = "127.0.0.1";
+    private const ushort SERVER_PORT = 17326;
     private const ushort WEB_SERVER_PORT = SERVER_PORT - 1000;
+
+    private bool bConnectedServer = false;
+
     private C2S.Proxy _c2sProxy = new C2S.Proxy();
     private S2C.Stub _s2cStub = new S2C.Stub();
 
@@ -88,11 +91,11 @@ public class ProudNetManager : MonoBehaviour
         param.serverIP = loginField.text;
         param.serverPort = ushort.Parse(portField.text);
 #elif !UNITY_EDITOR && UNITY_STANDALONE
-        param.serverIP = $"127.0.0.1";
-        param.serverPort = 17326;
+        param.serverIP = IP;
+        param.serverPort = SERVER_PORT;
 #elif !UNITY_EDITOR && UNITY_WEBGL
-        param.serverIP = $"ws://10.1.102.56:{16326}/echo";
-        param.serverPort = 16326;
+        param.serverIP = $"ws://{IP}:{WEB_SERVER_PORT}/echo";
+        param.serverPort = WEB_SERVER_PORT;
 #endif
 
         System.Guid guid = new System.Guid("{ 0xafa3c0c, 0x77d7, 0x4b74, { 0x9d, 0xdb, 0x1c, 0xb3, 0xd2, 0x5e, 0x1e, 0x64 } }");
@@ -131,8 +134,6 @@ public class ProudNetManager : MonoBehaviour
                 UpdateDebug();
                 deltaTime = 0.0f;
             }
-
-            GC.Collect();
         }
 
         netClient.FrameMove();
@@ -168,7 +169,18 @@ public class ProudNetManager : MonoBehaviour
         return (int)GetLocalHostID();
     }
 
-#region Stub
+    public void UpdateDebug()
+    {
+        StringBuilder str = new StringBuilder();
+        str.Append($"Latency : {GetLatency()}\n");
+        str.Append($"Actor Count : {GameMode.Instance.GetActorCount()}\n");
+        str.Append($"Delta Time : {deltaTime}\n");
+        str.Append($"Duration Time : {Time.time}\n");
+        str.Append($"MonoHeapSize : {Profiler.GetMonoHeapSizeLong()}");
+        latencyText.text = str.ToString();
+    }
+
+    #region Stub
     private Actor tempActor = null;
     private bool OnJoinClient(HostID remote, RmiContext rmiContext, int hostID, int entityID)
     {
@@ -239,19 +251,8 @@ public class ProudNetManager : MonoBehaviour
     }
 #endregion
 
-    public void UpdateDebug()
-    {
-        StringBuilder str = new StringBuilder();
-        str.Append($"Latency : {GetLatency()}\n");
-        str.Append($"Actor Count : {GameMode.Instance.GetActorCount()}\n");
-        str.Append($"Delta Time : {deltaTime}\n");
-        str.Append($"Duration Time : {Time.time}\n");
-        str.Append($"MonoHeapSize : {Profiler.GetMonoHeapSizeLong()}");
-        latencyText.text = str.ToString();
-    }
-
-    // Ping
-    private void CheckDebug()
+    // Latency
+    private void CheckLatency()
     {
         _c2sProxy.CheckLatency(HostID.HostID_Server, defaultContext, DateTime.Now.Ticks);
     }

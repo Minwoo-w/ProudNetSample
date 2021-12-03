@@ -168,8 +168,6 @@ namespace Nettention.Proud
 
             m_clientInstanceID = m_jsClient.Create(m_connectionParam);
 
-            Misc.enableLog = true;
-
             if (!m_callbackRegistered)
             {
                 RegisterCallbacks();
